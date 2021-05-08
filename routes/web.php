@@ -13,6 +13,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'Web\HomeController@index');
+Route::get('/index', 'Web\HomeController@index');
+Route::get('/home', 'Web\HomeController@index');
+Route::get('/home/index', 'Web\HomeController@index');
+
+Route::get('/home/category/{category}', [
+    'uses' => 'HomeController@category',
+    'as'   => 'category'
+]);

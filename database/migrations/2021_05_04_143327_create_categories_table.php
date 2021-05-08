@@ -17,6 +17,8 @@ class CreateCategoriesTable extends Migration
             $table->id();
             $table->string('name', 100);
             $table->unsignedInteger('uppper_category_id');
+            $table->string('title');
+            $table->string('slug')->unique();
             $table->timestamps();
         });
     }
