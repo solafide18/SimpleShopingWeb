@@ -76,24 +76,24 @@
         @foreach ($products as $product)
             @php($counter++)
             @if($counter<$productCounter)
-                <div class="  product-grid">
-                    <div class="content_box" style="padding-right: 30px;">
+                <div class="  product-grid" product-id="{{$product->id}}">
+                    <div class="content_box">
                         <a href="single.html"></a>
                         <div class="left-grid-view grid-view-left">
-                            <a href="single.html">
-                                <img src="{{ $product->path_image }}" class="img-responsive watch-right" alt="">
+                            <a class="add-item-prd">
+                                <img src="{{url('/')}}/{{ $product->path_image }}" class="img-responsive watch-right productImg" alt="">
                                 <div class="mask">
                                     <div class="info">Quick View</div>
                                 </div>
                             </a>
                         </div>
-                        <h4><a href="#">{{$product->name}}</a></h4>
+                        <h4><a class="add-item-prd productName">{{$product->name}}</a></h4><h4>Stock : {{$product->stock}}</h4>
                         <span></span>
                         <div class="star-price">
                             <div class="dolor-grid"> 
-                                <span class="actual">Rp. {{$product->price}}</span>
+                                <span class="actual productPrice">Rp. {{$product->price}}</span>
                             </div>
-                            <a class="now-get get-cart add-item-prd" product-id="{{$product->id}}" style="cursor:pointer;">ADD TO CART</a> 
+                            <a class="now-get get-cart add-item-prd">ADD TO CART</a> 
                             <div class="clearfix"> </div>
                         </div>
                     </div>
@@ -108,6 +108,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <form id="form-tambah-data">
+                <input type="hidden" name="product_id" id="product_id">
                 <div class="modal-header">
                     <h4 class="modal-title">Form Data Diri&nbsp;<span class="text-red">* harus diisi</span></h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -119,7 +120,7 @@
                         <div class="col-md-12" data-select2-id="29">
                             <div class="form-group">
                                 <label>Nama Lengkap<span class="text-red">*</span></label>
-                                <input class="form-control" type="text" placeholder="Default Nama Lengkap" name="nama_lengkap">
+                                <input class="form-control" type="text" placeholder="Default Nama Lengkap" name="full_name">
                             </div>
                             <div class="form-group">
                                 <label>No Telpon <span class="text-red">*</span></label>
@@ -131,7 +132,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Alamat <span class="text-red">*</span></label>
-                                <input class="form-control" type="text" placeholder="input Alamat" name="alamat">
+                                <textarea class="form-control" type="text" placeholder="input Alamat" name="alamat"></textarea>
                             </div>
                             <div class="form-group">
                                 <div class="  product-grid">
@@ -139,17 +140,17 @@
                                         <a href="single.html"></a>
                                         <div class="left-grid-view grid-view-left">
                                             <span>
-                                                <img src="template/images/pic2.jpg" class="img-responsive watch-right" alt="">
+                                                <img src="{{url('/')}}/template/images/pic2.jpg" class="img-responsive watch-right" id="product-image" alt="">
                                                 <div class="mask">
                                                     <div class="info">Quick View</div>
                                                 </div>
                                             </span>
                                         </div>
-                                        <h4>Product Name</h4>
+                                        <h4><a id="product-name">Product Name</a></h4>
                                         <span></span>
                                         <div class="star-price">
                                             <div class="dolor-grid"> 
-                                                <span class="actual">Rp. 0</span>
+                                                <span class="actual" id="product-price">Rp. 0</span>
                                             </div>
                                             <div class="clearfix"> </div>
                                         </div>

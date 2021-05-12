@@ -11,7 +11,7 @@ class ProductsTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('products')->truncate();
+        DB::table('products')->delete();
 
         for ($i = 1; $i <= 36; $i++)
         {
@@ -20,7 +20,7 @@ class ProductsTableSeeder extends Seeder
                     'name'  =>'product '.$i, 
                     'price' =>rand(1, 50) . "000", 
                     'stock'  =>10,
-                    'category_id'   => 0,
+                    'category_id'   => rand(1, 3),
                     'path_image'    =>'template/images/pic' .rand(1, 13) . '.jpg'
                 ]
             ]);

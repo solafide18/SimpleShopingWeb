@@ -1,5 +1,5 @@
-@extends('shared.layout')
-
+@extends('shared.admin.layout')
+@section('title', 'Simple Shoping | Data Product')
 @section('content')
 <style>
     .tablewrap {
@@ -24,11 +24,11 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Action</th>
-                                <th>Restoran</th>
-                                <th>Alamat</th>
-                                <th>Penghasilan Perbulan</th>
-                                <th>Dasar Pengenaan Pajak</th>
-                                <th>Masa Pajak</th>
+                                <th>Product</th>
+                                <th>Price</th>
+                                <th>Stock</th>
+                                <th>Stock on Progress</th>
+                                <th>Image</th>
                                 <th>Tarif Pajak</th>
                             </tr>
                         </thead>
@@ -142,5 +142,5 @@
 <script>
 
 </script>
-<script src="{{url('/')}}/js/restoran.js" type=""></script>
+<script src="{{url('/')}}/js/admin.product.js" type=""></script>
 @endsection

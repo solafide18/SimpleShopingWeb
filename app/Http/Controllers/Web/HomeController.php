@@ -16,5 +16,17 @@ class HomeController extends Controller
         $products = Product::all();
         return view('home/index', compact('categories','products'));
     }
+
+    public function category(Category $category)
+    {
+        // error_log('cek category');
+        // error_log($category);
+        
+        $categories = Category::all();
+        $products = $category->products()
+                    // ->published()    
+                    ->get();
+        return view('home/index', compact('categories','products'));
+    }
     
 }

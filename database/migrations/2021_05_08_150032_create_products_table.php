@@ -18,7 +18,8 @@ class CreateProductsTable extends Migration
             $table->string('name', 100);
             $table->string('price');
             $table->integer('stock');
-            $table->integer('category_id')->nullable();
+            $table->bigInteger('category_id')->unsigned()->nullable();
+            $table->foreign('category_id')->references('id')->on('categories');
             $table->string('path_image');
             $table->timestamps();
         });

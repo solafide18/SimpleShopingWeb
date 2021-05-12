@@ -1,3 +1,6 @@
 .text-red{
     color: red;
 }
+.add-item-prd{
+    cursor: pointer;
+}

@@ -3,6 +3,7 @@
     <ul class="menu">
         <li><a href="/">All</a></li>
         @foreach ($categories as $category)
+            <!-- <li><a href="{{url('/')}}/home/category/{{$category->slug}}">{{ $category->title }}</a></li> -->
             <li><a href="{{ route('category', $category->slug) }}">{{ $category->title }}</a></li>
         @endforeach
         
@@ -56,6 +57,8 @@
         </ul> -->
     </ul>
 </div>
+<script type="text/javascript">
+</script>
 <!--initiate accordion-->
 
 <!-- <div class=" chain-grid menu-chain">

@@ -4,7 +4,7 @@
 			<div class="container">
 				<div class="header-bottom-left">
 					<div class="logo">
-						<a href="/"><img src="template/images/logo.png" alt=" " /></a>
+						<a href="/"><img src="{{url('/')}}/template/images/logo.png" alt=" " /></a>
 					</div>
 					<div class="clearfix"> </div>
 				</div>
