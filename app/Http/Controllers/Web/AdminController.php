@@ -4,28 +4,38 @@ namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
     public function index()
     {
-        return view('admin/index');
+        // dd(Auth::check());
+        if (Auth::check()) {
+            return view('admin/index');
+        }
+        else{
+            return redirect('/login');
+        }
     }
 
     public function product()
     {
-        return view('admin/product');
+        if (Auth::check()) {
+            return view('admin/product');
+        }
+        else{
+            return redirect('/login');
+        }
     }
 
     public function category()
     {
-        return view('admin/category');
-    }
-
-    public function login()
-    {
-        $categories = Category::all();
-        $products = Product::all();
-        return view('login/index');
+        if (Auth::check()) {
+            return view('admin/category');
+        }
+        else{
+            return redirect('/login');
+        }
     }
 }

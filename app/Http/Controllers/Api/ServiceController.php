@@ -9,9 +9,17 @@ use App\Category;
 use App\Product;
 use App\Http\Requests;
 use Illuminate\Support\Facades\Log;
+use Carbon\Carbon;
 
 class ServiceController extends Controller
 {
+    protected $uploadPath;
+
+    public function __construct()
+    {
+        $this->uploadPath = public_path(config('cms.image.directory'));
+    }
+    //Transaction
     public function GetTransaction()
     {
         $data = Transaction::with('product')->get();
@@ -27,16 +35,48 @@ class ServiceController extends Controller
     public function PostTransaction(Requests\TransactionRequest $request)
     {
         $data = $this->handleRequest($request);
+        $product = Product::with('transactions')->findOrFail($data['product_id']);
+        if($product->stock <= 0){
+            abort(400, "Stock Product kosong");
+        }
+        if($product->transactions->count() >= $product->stock){
+            abort(400, "Stock Product kosong");
+        }
         $transaction = Transaction::create($data);
         
         return response()->json([
             'code' => 200,
             'data' => $transaction,
             'count' => 0,
-            'message' => "oke"
+            'message' => "Pesanan Anda sedang diproses"
         ]);
     }
 
+    public function PostTransactionApprove(Requests\TransactionRequest $request)
+    {
+        // $user = Auth::user();
+        $statusApproval = $data['status'];
+        $data = $this->handleRequest($request);
+        $transaction = Transaction::findOrFail($data['id']);
+        $transaction->user_id = 1;//$user->id;
+        $transaction->confirmed_at = Carbon::now();
+        $transaction->status = $statusApproval;
+        $transaction->save();
+        
+        if($statusApproval == 10){
+            $product = Product::findOrFail($data['product_id']);
+            $product->stock = $product->stock - 1;
+            $product->save();
+        }
+        return response()->json([
+            'code' => 200,
+            'data' => $transaction,
+            'count' => 0,
+            'message' => "Pesanan an. '".$transaction->full_name."' sedang diproses,<br> pastikan untuk mengirim pesanan tersebut"
+        ]);
+    }
+    //End Transaction
+    //Category
     public function GetCategory()
     {
         $data = Category::with('products')->get();
@@ -46,6 +86,18 @@ class ServiceController extends Controller
                 'code' => 200,
                 'data' => $data,
                 'count' => $data ->count()
+        ]);
+    }
+
+    public function GetDDLCategory()
+    {
+        $data = Category::get();
+        // error_log("start cek");
+        // error_log($data);
+        return response()->json([
+                'code' => 200,
+                'data' => $data,
+                'count' => $data->count()
         ]);
     }
 
@@ -104,10 +156,12 @@ class ServiceController extends Controller
             ]);
         }
     }
+    //End Category
 
+    //Product
     public function GetProduct()
     {
-        $data = Product::with('transactions')->get();
+        $data = Product::with('category', 'transactions')->get();
         // error_log("start cek");
         // error_log($data);
         return response()->json([
@@ -117,7 +171,19 @@ class ServiceController extends Controller
         ]);
     }
 
-    public function PostProduct(Requests\CategoryRequest $request)
+    public function GetProductById($id)
+    {
+        $data = Product::findOrFail($id);
+        error_log("start cek");
+        error_log($data);
+        return response()->json([
+                'code' => 200,
+                'data' => $data,
+                'count' => $data ->count()
+        ]);
+    }
+
+    public function PostProduct(Requests\ProductRequest $request)
     {
         $data = $this->handleRequest($request);
         $product = Product::create($data);
@@ -126,13 +192,75 @@ class ServiceController extends Controller
             'code' => 200,
             'data' => $product,
             'count' => 0,
-            'message' => "oke"
+            'message' => "Inserted"
         ]);
     }
+
+    public function PutProduct(Requests\PutProductRequest $request)
+    {
+        $data = $this->handleRequest($request);
+        $product = Product::findOrFail($data['id'])->update($data);
+        return response()->json([
+            'code' => 200,
+            'data' => $product,
+            'count' => 0,
+            'message' => "Updated"
+        ]);
+    }
+
+    public function DeleteProduct($id)
+    {
+        $data = Product::with('transactions')->findOrFail($id);
+        // $dataProducts = $data::with('products')->get();
+        // $data->delete();
+        // error_log("dataProducts");
+        // error_log($data);
+        if($data->transactions->count()>0){
+            abort(400, "Product masih digunakan dibeberapa transaksi active");
+        }else{
+            return response()->json([
+                'code' => 200,
+                'data' => $data,
+                'count' => 0,
+                'message' => "Deleted"
+            ]);
+        }
+    }
+    //End Product
+
+    // private function handleRequest($request)
+    // {
+    //     $data = $request->all();
+    //     return $data;
+    // }
 
     private function handleRequest($request)
     {
         $data = $request->all();
+        dd($request);
+        if ($request->file('file'))
+        {
+            $image       = $request->file('path_image_upload');
+            $fileName    = $image->getClientOriginalName();
+            $destination = $this->uploadPath;
+
+            $successUploaded = $image->move($destination, $fileName);
+
+            if ($successUploaded)
+            {
+                $width     = config('cms.image.thumbnail.width');
+                $height    = config('cms.image.thumbnail.height');
+                $extension = $image->getClientOriginalExtension();
+                $thumbnail = str_replace(".{$extension}", "_thumb.{$extension}", $fileName);
+
+                Image::make($destination . '/' . $fileName)
+                    ->resize($width, $height)
+                    ->save($destination . '/' . $thumbnail);
+            }
+
+            $data['path_image'] = $fileName;
+        }
+
         return $data;
     }
 }

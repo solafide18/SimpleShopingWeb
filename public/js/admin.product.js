@@ -2,24 +2,36 @@ const baseUrl = $("#baseUrl").val();
 
 $(document).ready(function () {
     loadgrid();
+    
+    ShowCategoryDDL();
 });
+
+$("input.file-product").on('change', function(){
+    // alert('changed');
+    // debugger;
+    var imgPreview = $(this).siblings('img');
+    
+    $(imgPreview).attr("src",URL.createObjectURL($(this)[0].files[0]));
+    $(imgPreview).css({'width' : '210px' , 'height' : '285px'});
+    // $(this).siblings('.file-path').val(URL.createObjectURL($(this)[0].files[0]));
+})
 
 function loadgrid() {
     $("#grid").DataTable({
         ajax:{
-            url: baseUrl + '/api/master/restoran',
+            url: baseUrl + '/api/service/product',
             type : 'get',
             dataSrc: 'data'
         },
         columns:[
             { data : "id" },
             { data : null },
-            { data : "nama", className: "nowrap" },
-            { data : "alamat", className: "nowrap" },
-            { data : "penghasilan_perbulan"},
-            { data : "dasar_pengenaan_pajak" },
-            { data : "masa_pajak" },
-            { data : "tarif_pajak" }
+            { data : "name", className: "nowrap" },
+            { data : "price", className: "nowrap" },
+            { data : "category.name"},
+            { data : "path_image"},
+            { data : "stock"},
+            { data : null },
         ],
         columnDefs : [
             { 
@@ -43,10 +55,92 @@ function loadgrid() {
                         </div>
                     `;
                 }
+            },
+            { 
+                targets: 7,
+                orderable: true,
+                searchable: true,
+                className: "nowrap",
+                render: function ( data, type, row, meta ) {
+                    // console.log('data : ',data);
+                    // row.products_count = row.products.length;
+                    // console.log('row : ',row);
+                    return data.transactions.length;
+                }
             }
         ]
     });
 }
+
+function ShowModalAdd() {
+    $("#modal-tambah-data").modal("show");
+}
+
+function SubmitConfirmation(msg){
+    Swal.fire({
+        title: `Anda Yakin ?`,
+        text: msg,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Ya!'
+      }).then((result) => {
+        return result.value;
+    })
+}
+
+$(".btn-submit").click(function(){
+    var modal = $(this).parents('.modal');
+    var form = $(this).parents('form');
+    var urlAction = $(form).attr('action');
+    var methodAction = $(form).attr('method');
+    var msg = $(this).attr('alert-msg');
+    Swal.fire({
+        title: `Anda Yakin ?`,
+        text: msg,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Ya!'
+      }).then((result) => {
+        if(result.value){
+            let table = $("#grid").DataTable();
+            let data = $(form).serializeArray();
+            var formData = _.object(_.pluck(data, 'name'), _.pluck(data, 'value'));
+            // console.log("data : ", formData);
+            $.ajax({
+                url: urlAction,
+                data: formData,
+                dataType: 'json',
+                type: methodAction,
+                success: function (response) {
+                    // console.log(response);
+                    Swal.fire(
+                        'Warning!',
+                        response.message,
+                        'warning'
+                    );
+                    $(modal).modal("hide");
+                    // location.reload(true);
+                    table.ajax.reload();
+                },
+                error: function (err) {
+                    console.log(err);
+                    // alert(err.responseJSON['message']==null?'Error':err.responseJSON['message']);
+                    Swal.fire(
+                        'Error!',
+                        err.responseJSON['message'],
+                        'error'
+                    );
+                    $(modal).modal("hide");
+                }
+            })
+        }
+    })
+})
+
 
 function ShowModalEdit(e) {
     // SetDatePicker();
@@ -56,20 +150,29 @@ function ShowModalEdit(e) {
     // console.log(data);
     // console.log("id : ",id);
     $.ajax({
-        url: baseUrl + `/api/master/restoran/${id}/details`,
+        url: baseUrl + `/api/service/product/${id}`,
         dataType: 'json',
         type: 'get',
         success: function (response) {
             // console.log(id,response);
-
-            if (response.data.length > 0) {
-                let data = response.data[0];
+                let data = response.data;
                 Object.getOwnPropertyNames(data).forEach(element => {
+                    // debugger;
                     let selectorEl = `#modal-edit-data [name=${element}]`;
-                    $(selectorEl).val(data[element])
+                    if(!($(selectorEl).hasClass('file-path'))){
+                        $(selectorEl).val(data[element]);
+                    }
+                    else{
+                        $('#modal-edit-data img').attr("src",baseUrl + '/' + data[element]);
+                        $('#modal-edit-data img').css({'width' : '210px' , 'height' : '285px'});
+                    }
+                    if($(selectorEl).hasClass('seelct2ddl')){
+                        $(selectorEl).val(data[element]).trigger('change');
+                    }
+                    //.trigger('change');
                     // console.log(selectorEl, element, " value : ", data[element]);
                 });
-            }
+            
             
             $("#modal-edit-data [name=id]").val(id);
             $("#modal-edit-data").modal("show");
@@ -95,7 +198,7 @@ function ShowModalDelete(e) {
       }).then((result) => {
         if (result.value) {
             $.ajax({
-                url: baseUrl + `/api/service/restoran/${id}`,
+                url: baseUrl + `/api/service/product/${id}`,
                 dataType: 'json',
                 type: 'delete',
                 success: function (response) {
@@ -108,80 +211,38 @@ function ShowModalDelete(e) {
                     table.ajax.reload();
                 },
                 error: function (err) {
+                    Swal.fire(
+                        'Error!',
+                        err.responseJSON['message'],
+                        'error'
+                    );
                     console.log(err);
+                    table.ajax.reload();
                 }
             })
         }
       })
 }
 
-function SubmitDataEdit() {
-    let table = $("#grid").DataTable();
-    let data = $("#form-edit-data").serializeArray();
-    var formData = _.object(_.pluck(data, 'name'), _.pluck(data, 'value'));
-    // console.log("data : ", formData);
+function ShowCategoryDDL(){
     $.ajax({
-        url: baseUrl + `/api/service/restoran/${formData.id}/update`,
-        data: formData,
+        url: baseUrl + `/api/service/ddl/category`,
         dataType: 'json',
-        type: 'post',
+        type: 'get',
         success: function (response) {
-            console.log(response);
-            Swal.fire(
-                'Warning!',
-                response.message,
-                'warning'
-            );
-            $("#modal-edit-data").modal("hide");
-            table.ajax.reload();
+            let data = response.data;
+            for (let i = 0; i < data.length; i++) {
+                const item = data[i];
+                let raw = `<option value="${item.id}">${item.name}</option>`
+                $("#modal-tambah-data .seelct2ddl").append(raw);
+                $("#modal-edit-data .seelct2ddl").append(raw);
+            }
+            $(".seelct2ddl").select2({
+                theme: 'bootstrap4'
+            });
         },
         error: function (err) {
             console.log(err);
-            // alert(err.responseJSON['message']==null?'Error':err.responseJSON['message']);
-            Swal.fire(
-                'Error!',
-                err.responseJSON['message'],
-                'error'
-            );
-            $("#modal-tambah-data").modal("hide");
-        }
-    })
-}
-
-function ShowModalAdd() {
-    $("#modal-tambah-data").modal("show");
-}
-
-function SubmitDataInsert() {
-    let table = $("#grid").DataTable();
-    let data = $("#form-tambah-data").serializeArray();
-    var formData = _.object(_.pluck(data, 'name'), _.pluck(data, 'value'));
-    // console.log("data : ", formData);
-    $.ajax({
-        url: baseUrl + '/api/service/restoran',
-        data: formData,
-        dataType: 'json',
-        type: 'post',
-        success: function (response) {
-            // console.log(response);
-            Swal.fire(
-                'Warning!',
-                response.message,
-                'warning'
-            );
-            $("#modal-tambah-data").modal("hide");
-            // location.reload(true);
-            table.ajax.reload();
-        },
-        error: function (err) {
-            console.log(err);
-            // alert(err.responseJSON['message']==null?'Error':err.responseJSON['message']);
-            Swal.fire(
-                'Error!',
-                err.responseJSON['message'],
-                'error'
-            );
-            $("#modal-tambah-data").modal("hide");
         }
     })
 }

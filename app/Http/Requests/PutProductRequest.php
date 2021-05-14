@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
 
-class ProductRequest extends Request
+class PutProductRequest extends Request
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,6 +28,7 @@ class ProductRequest extends Request
             'price'         => 'required',
             'stock'         => 'required',
             'category_id'   => 'required',
+            'image'         => 'mimes:jpg,jpeg,bmp,png',
         ];
 
         switch($this->method()) {

@@ -87,7 +87,7 @@
                                 </div>
                             </a>
                         </div>
-                        <h4><a class="add-item-prd productName">{{$product->name}}</a></h4><h4>Stock : {{$product->stock}}</h4>
+                        <h4><a class="add-item-prd productName">{{$product->name}}</a></h4><h4>Stock : {{$product->stock - $product->transactions->count()}}</h4>
                         <span></span>
                         <div class="star-price">
                             <div class="dolor-grid"> 
@@ -142,7 +142,7 @@
                                             <span>
                                                 <img src="{{url('/')}}/template/images/pic2.jpg" class="img-responsive watch-right" id="product-image" alt="">
                                                 <div class="mask">
-                                                    <div class="info">Quick View</div>
+                                                    <div class=""></div>
                                                 </div>
                                             </span>
                                         </div>

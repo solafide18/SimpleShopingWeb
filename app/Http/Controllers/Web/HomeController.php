@@ -13,7 +13,7 @@ class HomeController extends Controller
     public function index()
     {
         $categories = Category::all();
-        $products = Product::all();
+        $products = Product::with('transactions')->get();
         return view('home/index', compact('categories','products'));
     }
 

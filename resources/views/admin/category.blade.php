@@ -1,5 +1,5 @@
 @extends('shared.admin.layout')
-@section('title', 'Simple Shoping | Data Product')
+@section('title', 'Simple Shoping | Data Category')
 @section('content')
 <style>
     .tablewrap {
@@ -11,7 +11,7 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Data Pajak Restoran Aktif</h3>
+                <h3 class="card-title">Data Category</h3>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
@@ -39,7 +39,7 @@
 <div class="modal fade" id="modal-tambah-data">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <form id="form-tambah-data" method="POST" action="{{ route('admin.post.category') }}">
+            <form id="form-tambah-data" method="POST" action="{{ route('api.admin.post.category') }}">
                 @csrf
                 <div class="modal-header">
                     <h4 class="modal-title">Tambah Data&nbsp;<span class="text-red">* harus diisi</span></h4>
@@ -78,7 +78,7 @@
 <div class="modal fade" id="modal-edit-data">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <form id="form-edit-data" method="PUT" action="{{ route('admin.put.category') }}">
+            <form id="form-edit-data" method="PUT" action="{{ route('api.admin.put.category') }}">
                 @csrf
                 <input type="hidden" name="id">
                 <div class="modal-header">

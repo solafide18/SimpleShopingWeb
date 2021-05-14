@@ -11,7 +11,7 @@ class ProductsTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('products')->delete();
+        // DB::table('products')->delete();
 
         for ($i = 1; $i <= 36; $i++)
         {

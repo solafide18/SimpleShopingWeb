@@ -11,7 +11,7 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Data Pajak Restoran Aktif</h3>
+                <h3 class="card-title">Data Product</h3>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
@@ -24,12 +24,12 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Action</th>
-                                <th>Product</th>
+                                <th>Product Name</th>
                                 <th>Price</th>
+                                <th>Category</th>
+                                <th>Image</th>
                                 <th>Stock</th>
                                 <th>Stock on Progress</th>
-                                <th>Image</th>
-                                <th>Tarif Pajak</th>
                             </tr>
                         </thead>
                     </table>
@@ -41,7 +41,8 @@
 <div class="modal fade" id="modal-tambah-data">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <form id="form-tambah-data">
+            <form id="form-tambah-data" method="POST" action="{{ route('api.admin.post.product') }}">
+                @csrf
                 <div class="modal-header">
                     <h4 class="modal-title">Tambah Data&nbsp;<span class="text-red">* harus diisi</span></h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -52,35 +53,34 @@
                     <div class="row">
                         <div class="col-md-12" data-select2-id="29">
                             <div class="form-group">
-                                <label>Nama Restoran <span class="text-red">*</span></label>
-                                <input class="form-control" type="text" placeholder="Default input" name="nama">
+                                <label>Product Name <span class="text-red">*</span></label>
+                                <input class="form-control" type="text" placeholder="Default input" name="name">
                             </div>
                             <div class="form-group">
-                                <label>Alamat <span class="text-red">*</span></label>
-                                <input class="form-control" type="text" placeholder="Default input" name="alamat">
+                                <label>Price <span class="text-red">*</span></label>
+                                <input class="form-control" type="number" placeholder="Default input" name="price">
                             </div>
                             <div class="form-group">
-                                <label>Penghasilan Perbulan</label>
-                                <input class="form-control" type="number" placeholder="Default input" name="penghasilan_perbulan">
+                                <label>Stock</label>
+                                <input class="form-control" type="number" placeholder="Default input" name="stock">
                             </div>
                             <div class="form-group">
-                                <label>Dasar Pengenaan Pajak</label>
-                                <input class="form-control" type="number" placeholder="Default input" name="dasar_pengenaan_pajak">
+                                <label>Category <span class="text-red">*</span></label>
+                                <Select class="form-control seelct2ddl" name="category_id">
+                                    <option value="" selected="selected">Select</option>
+                                </select>
                             </div>
                             <div class="form-group">
-                                <label>Masa Pajak </label>
-                                <input class="form-control" type="date" placeholder="Default input" name="masa_pajak">
-                            </div>
-                            <div class="form-group">
-                                <label>Tarif Pajak </label>
-                                <input class="form-control" type="number" placeholder="Default input" name="tarif_pajak">
+                                <label>Image</label><br>
+                                <input type="file" class="file-product" name="path_image" accept="image/*">
+                                <img class="image_preview form-control" src="#" alt="your image" /><br>
                             </div>
                         </div>
-                    </div>
+                    </div>  
                 </div>
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" onclick="SubmitDataInsert()">Save changes</button>
+                    <button type="button" class="btn btn-primary btn-submit" alert-msg='Do you want to save new Product?'>Save changes</button>
                 </div>
             </form>
         </div>
@@ -91,7 +91,8 @@
 <div class="modal fade" id="modal-edit-data">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <form id="form-edit-data">
+            <form id="form-edit-data" method="PUT" action="{{ route('api.admin.put.product') }}">
+                @csrf
                 <input type="hidden" name="id">
                 <div class="modal-header">
                     <h4 class="modal-title">Tambah Data&nbsp;<span class="text-red">* harus diisi</span></h4>
@@ -102,36 +103,36 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-12" data-select2-id="29">
-                            <div class="form-group">
-                                <label>Nama Restoran <span class="text-red">*</span></label>
-                                <input class="form-control" type="text" placeholder="Default input" name="nama">
+                        <div class="form-group">
+                                <label>Product Name <span class="text-red">*</span></label>
+                                <input class="form-control" type="text" placeholder="Default input" name="name">
                             </div>
                             <div class="form-group">
-                                <label>Alamat <span class="text-red">*</span></label>
-                                <input class="form-control" type="text" placeholder="Default input" name="alamat">
+                                <label>Price <span class="text-red">*</span></label>
+                                <input class="form-control" type="number" placeholder="Default input" name="price">
                             </div>
                             <div class="form-group">
-                                <label>Penghasilan Perbulan </label>
-                                <input class="form-control" type="number" placeholder="Default input" name="penghasilan_perbulan">
+                                <label>Stock</label>
+                                <input class="form-control" type="text" placeholder="Default input" name="stock">
                             </div>
                             <div class="form-group">
-                                <label>Dasar Pengenaan Pajak </label>
-                                <input class="form-control" type="number" placeholder="Default input" name="dasar_pengenaan_pajak">
+                                <label>Category</label>
+                                <Select class="form-control seelct2ddl" name="category_id">
+                                    <option value="" selected="selected">Select</option>
+                                </select>
                             </div>
                             <div class="form-group">
-                                <label>Masa Pajak </label>
-                                <input class="form-control" type="date" placeholder="Default input" name="masa_pajak">
-                            </div>
-                            <div class="form-group">
-                                <label>Tarif Pajak </label>
-                                <input class="form-control" type="number" placeholder="Default input" name="tarif_pajak">
+                                <label>Image</label><br>
+                                <input type="hidden" class="file-path" name="path_image" accept="image/*">
+                                <input type="file" class="file-product" name="path_image_upload" accept="image/*">
+                                <img class="image_preview form-control" src="#" alt="your image" /><br>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" onclick="SubmitDataEdit()">Save changes</button>
+                    <button type="button" class="btn btn-primary btn-submit" alert-msg='Do you want to save the changes?'>Save changes</button>
                 </div>
             </form>
         </div>
