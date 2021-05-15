@@ -90,31 +90,38 @@ function SubmitConfirmation(msg){
     })
 }
 
-$(".btn-submit").click(function(){
+$('form').submit(function(e){
+    e.preventDefault();
+    debugger;
     var modal = $(this).parents('.modal');
-    var form = $(this).parents('form');
-    var urlAction = $(form).attr('action');
-    var methodAction = $(form).attr('method');
-    var msg = $(this).attr('alert-msg');
+    var urlAction = $(this).attr('action');
+    var methodAction = $(this).attr('method');
+    var data = $(this).serializeArray();
+    var formData = new FormData(this);
+    // for ( var key in data ) {
+    //     formData.append(key, data[key]);
+    // }
+    // formData.append('file', $(this).find('input[type=file]')[0].files[0], $(this).find('input[type=file]')[0].files[0].name);
     Swal.fire({
         title: `Anda Yakin ?`,
-        text: msg,
+        text: 'Untuk menyimpan data ini?',
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         confirmButtonText: 'Ya!'
-      }).then((result) => {
+    }).then((result) => {
         if(result.value){
+            debugger;
             let table = $("#grid").DataTable();
-            let data = $(form).serializeArray();
-            var formData = _.object(_.pluck(data, 'name'), _.pluck(data, 'value'));
-            // console.log("data : ", formData);
             $.ajax({
                 url: urlAction,
                 data: formData,
-                dataType: 'json',
+                dataType : 'json',
                 type: methodAction,
+                processData: false,
+                contentType: false,
+                enctype: 'multipart/form-data',
                 success: function (response) {
                     // console.log(response);
                     Swal.fire(
@@ -123,23 +130,73 @@ $(".btn-submit").click(function(){
                         'warning'
                     );
                     $(modal).modal("hide");
-                    // location.reload(true);
                     table.ajax.reload();
                 },
                 error: function (err) {
                     console.log(err);
-                    // alert(err.responseJSON['message']==null?'Error':err.responseJSON['message']);
                     Swal.fire(
                         'Error!',
                         err.responseJSON['message'],
                         'error'
                     );
                     $(modal).modal("hide");
+                    table.ajax.reload();
                 }
             })
         }
     })
 })
+
+// $(".btn-submit").click(function(){
+//     var modal = $(this).parents('.modal');
+//     var form = $(this).parents('form');
+//     var urlAction = $(form).attr('action');
+//     var methodAction = $(form).attr('method');
+//     var msg = $(this).attr('alert-msg');
+//     Swal.fire({
+//         title: `Anda Yakin ?`,
+//         text: msg,
+//         icon: 'warning',
+//         showCancelButton: true,
+//         confirmButtonColor: '#3085d6',
+//         cancelButtonColor: '#d33',
+//         confirmButtonText: 'Ya!'
+//       }).then((result) => {
+//         if(result.value){
+//             debugger;
+//             let table = $("#grid").DataTable();
+//             var formData = new FormData($(form));
+//             // console.log("data : ", formData);
+//             $.ajax({
+//                 url: urlAction,
+//                 data: formData,
+//                 dataType: 'json',
+//                 type: methodAction,
+//                 success: function (response) {
+//                     // console.log(response);
+//                     Swal.fire(
+//                         'Warning!',
+//                         response.message,
+//                         'warning'
+//                     );
+//                     $(modal).modal("hide");
+//                     // location.reload(true);
+//                     table.ajax.reload();
+//                 },
+//                 error: function (err) {
+//                     console.log(err);
+//                     // alert(err.responseJSON['message']==null?'Error':err.responseJSON['message']);
+//                     Swal.fire(
+//                         'Error!',
+//                         err.responseJSON['message'],
+//                         'error'
+//                     );
+//                     $(modal).modal("hide");
+//                 }
+//             })
+//         }
+//     })
+// })
 
 
 function ShowModalEdit(e) {

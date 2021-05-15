@@ -24,11 +24,11 @@ class PutProductRequest extends Request
     public function rules()
     {
         $rules = [
+            'id'          => 'required',
             'name'          => 'required',
             'price'         => 'required',
             'stock'         => 'required',
             'category_id'   => 'required',
-            'image'         => 'mimes:jpg,jpeg,bmp,png',
         ];
 
         switch($this->method()) {

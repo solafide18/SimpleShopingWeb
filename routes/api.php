@@ -32,6 +32,6 @@ Route::delete('/service/category/{id}', 'Api\ServiceController@DeleteCategory');
 Route::get('/service/product', 'Api\ServiceController@GetProduct');
 Route::get('/service/product/{id}', 'Api\ServiceController@GetProductById');
 Route::post('/service/product', 'Api\ServiceController@PostProduct')->name('api.admin.post.product');
-Route::put('/service/product', 'Api\ServiceController@PutProduct')->name('api.admin.put.product');
+Route::post('/service/productUpdate', 'Api\ServiceController@PutProduct')->name('api.admin.put.product');
 Route::delete('/service/product/{id}', 'Api\ServiceController@DeleteProduct');
 

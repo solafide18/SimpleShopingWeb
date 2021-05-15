@@ -8,11 +8,14 @@
         <li class="nav-item d-none d-sm-inline-block">
             <a href="{{url('/')}}/admin" class="nav-link">Admin Home</a>
         </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="{{url('/')}}" class="nav-link">Go To Catalog</a>
+        </li>
     </ul>
     <ul class="navbar-nav ml-auto">
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
-          <i class="far fas fa-sign-out-alt"></i>
+          <i class="far fas fa-user"></i>
           <span class="badge badge-warning navbar-badge">!</span>
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">

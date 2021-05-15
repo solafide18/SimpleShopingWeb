@@ -72,7 +72,8 @@
                             </div>
                             <div class="form-group">
                                 <label>Image</label><br>
-                                <input type="file" class="file-product" name="path_image" accept="image/*">
+                                <input type="hidden" class="file-path" name="path_image">
+                                <input type="file" class="file-product" name="path_image_upload" accept="image/*">
                                 <img class="image_preview form-control" src="#" alt="your image" /><br>
                             </div>
                         </div>
@@ -80,7 +81,7 @@
                 </div>
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary btn-submit" alert-msg='Do you want to save new Product?'>Save changes</button>
+                    <button type="submit" class="btn btn-primary btn-submit" alert-msg='Do you want to save new Product?'>Save changes</button>
                 </div>
             </form>
         </div>
@@ -91,7 +92,7 @@
 <div class="modal fade" id="modal-edit-data">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <form id="form-edit-data" method="PUT" action="{{ route('api.admin.put.product') }}">
+            <form id="form-edit-data" method="POST" action="{{ route('api.admin.put.product') }}">
                 @csrf
                 <input type="hidden" name="id">
                 <div class="modal-header">
@@ -132,7 +133,7 @@
                 </div>
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary btn-submit" alert-msg='Do you want to save the changes?'>Save changes</button>
+                    <button type="submit" class="btn btn-primary btn-submit" alert-msg='Do you want to save the changes?'>Save changes</button>
                 </div>
             </form>
         </div>

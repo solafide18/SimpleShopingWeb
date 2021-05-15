@@ -8,6 +8,12 @@
 					</div>
 					<div class="clearfix"> </div>
 				</div>
+				<div class="header-bottom-right">					
+					<ul class="login">
+						<li><a href="{{url('/')}}/admin"><span> </span>LOGIN</a></li>
+					</ul>
+					<div class="clearfix"> </div>
+				</div>
 				<div class="clearfix"> </div>
 			</div>
 		</div>

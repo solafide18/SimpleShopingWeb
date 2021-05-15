@@ -10,6 +10,7 @@ use App\Product;
 use App\Http\Requests;
 use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
+use Intervention\Image\Facades\Image;
 
 class ServiceController extends Controller
 {
@@ -237,8 +238,8 @@ class ServiceController extends Controller
     private function handleRequest($request)
     {
         $data = $request->all();
-        dd($request);
-        if ($request->file('file'))
+        // dd($request);
+        if ($request->file('path_image_upload'))
         {
             $image       = $request->file('path_image_upload');
             $fileName    = $image->getClientOriginalName();
@@ -258,7 +259,7 @@ class ServiceController extends Controller
                     ->save($destination . '/' . $thumbnail);
             }
 
-            $data['path_image'] = $fileName;
+            $data['path_image'] = config('cms.image.directory') . '/' . $thumbnail;
         }
 
         return $data;
