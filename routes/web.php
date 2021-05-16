@@ -20,6 +20,7 @@ Route::get('/', [
 Route::get('/index', 'Web\HomeController@index');
 Route::get('/home', 'Web\HomeController@index');
 Route::get('/home/index', 'Web\HomeController@index');
+Route::post('/', 'Web\HomeController@search');
 
 Route::get('/home/category/{category}', [
     'uses' => 'Web\HomeController@category',

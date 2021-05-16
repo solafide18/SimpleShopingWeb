@@ -24,9 +24,8 @@ class TransactionRequest extends Request
     public function rules()
     {
         $rules = [
-            'full_name'        => 'required',
-            'no_telpon'         => 'required',
-            'alamat'         => 'required'
+            'full_name'     => 'required',
+            'alamat'        => 'required'
         ];
 
         switch($this->method()) {

@@ -56,6 +56,7 @@ class ServiceController extends Controller
     public function PostTransactionApprove(Requests\TransactionRequest $request)
     {
         // $user = Auth::user();
+        $data = $this->handleRequest($request);
         $statusApproval = $data['status'];
         $data = $this->handleRequest($request);
         $transaction = Transaction::findOrFail($data['id']);

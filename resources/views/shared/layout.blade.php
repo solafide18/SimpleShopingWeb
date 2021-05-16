@@ -8,7 +8,6 @@
     @include('shared.style')
     @include('shared.script')
 </head>
-
 <body>
     <input type="hidden" value="{{URL::to('/')}}" id="baseUrl"/>
     @include('shared.navbar')

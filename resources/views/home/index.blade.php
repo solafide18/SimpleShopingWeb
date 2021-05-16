@@ -1,73 +1,18 @@
 @extends('shared.layout')
 
 @section('content')
-    <!-- <div class="wrap-in">
-        <div class="wmuSlider example1 slide-grid" style="overflow: hidden; height: 553px;">
-            <a href="single.html">		 
-                <div class="wmuSliderWrapper">		  
-                    <article style="position: relative; width: 100%; opacity: 1;">					
-                        <div class="banner-matter">
-                            <div class="col-md-5 banner-bag">
-                                <img class="img-responsive " src="template/images/bag.jpg" alt=" ">
-                            </div>
-                            <div class="col-md-7 banner-off">							
-                                <h2>FLAT 50% 0FF</h2>
-                                <label>FOR ALL PURCHASE <b>VALUE</b></label>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et </p>					
-                                <span class="on-get">GET NOW</span>
-                            </div>
-                            <div class="clearfix"> </div>
-                        </div>
-                    </article>
-                    <article style="position: absolute; width: 100%; opacity: 0;">					
-                        <div class="banner-matter">
-                            <div class="col-md-5 banner-bag">
-                                <img class="img-responsive " src="template/images/bag1.jpg" alt=" ">
-                            </div>
-                            <div class="col-md-7 banner-off">							
-                                <h2>FLAT 50% 0FF</h2>
-                                <label>FOR ALL PURCHASE <b>VALUE</b></label>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et </p>					
-                                <span class="on-get">GET NOW</span>
-                            </div>
-                            <div class="clearfix"> </div>
-                        </div>
-                    </article>
-                    <article style="position: absolute; width: 100%; opacity: 0;">					
-                        <div class="banner-matter">
-                            <div class="col-md-5 banner-bag">
-                                <img class="img-responsive " src="template/images/bag.jpg" alt=" ">
-                            </div>
-                            <div class="col-md-7 banner-off">							
-                                <h2>FLAT 50% 0FF</h2>
-                                <label>FOR ALL PURCHASE <b>VALUE</b></label>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et </p>					
-                                <span class="on-get">GET NOW</span>
-                            </div>
-                            <div class="clearfix"> </div>
-                        </div>
-                    </article>
-                
+    <div class=" w_content">
+        <div class="women">
+                <div class="search-item">
+                    <form action="{{ route('home') }}" method="post">
+                        @csrf
+                        <input type="text" value="" name="keyword" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '';}">
+                        <input type="submit" value="SEARCH">
+                    </form>
                 </div>
-                </a>
-            <ul class="wmuSliderPagination">
-                <li><a href="#" class="">0</a></li>
-                <li><a href="#" class="">1</a></li>
-                <li><a href="#" class="">2</a></li>
-            </ul>
-            <a class="wmuSliderPrev">Previous</a>
-            <a class="wmuSliderNext">Next</a>
-            <ul class="wmuSliderPagination">
-                <li><a href="#" class="wmuActive">0</a></li>
-                <li><a href="#" class="">1</a></li>
-                <li><a href="#" class="">2</a></li>
-            </ul> 
+                <div class="clearfix"> </div>	
         </div>
-    </div> -->
-    <!-- <div class="products">
-        <h5 class="latest-product">PRODUCTS</h5>	
-        <a class="view-all" href="product.html">VIEW ALL<span> </span></a> 		     
-    </div> -->
+    </div>
     @php
         $productCounter = 100000;
         $counter = 0;

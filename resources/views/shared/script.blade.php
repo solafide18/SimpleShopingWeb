@@ -2,7 +2,7 @@
 <script src="{{url('/')}}/adminlte/plugins/jquery/jquery.min.js"></script>
 <script src="{{url('/')}}/adminlte/plugins/jquery-ui/jquery-ui.min.js"></script>
 <script src="{{url('/')}}/adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="{{url('/')}}/template/js/jquery.wmuSlider.js"></script>\
+<script src="{{url('/')}}/template/js/jquery.wmuSlider.js"></script>
 <script src="{{url('/')}}/adminlte/plugins/sweetalert2/sweetalert2.min.js"></script>
 <script src="{{url('/')}}/js/underscore-min.js" type=""></script>
 <script>

@@ -17,6 +17,14 @@ class HomeController extends Controller
         return view('home/index', compact('categories','products'));
     }
 
+    public function search(Request $request)
+    {
+        $keyword = $request['keyword'];
+        $categories = Category::all();
+        $products = Product::with('transactions')->where('name','like','%'.$keyword.'%')->get();
+        return view('home/index', compact('categories','products'));
+    }
+
     public function category(Category $category)
     {
         // error_log('cek category');

@@ -8,7 +8,7 @@ $(document).ready(function () {
 
 $("input.file-product").on('change', function(){
     // alert('changed');
-    // debugger;
+    debugger;
     var imgPreview = $(this).siblings('img');
     
     $(imgPreview).attr("src",URL.createObjectURL($(this)[0].files[0]));

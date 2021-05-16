@@ -6,6 +6,12 @@
 					<div class="logo">
 						<a href="/"><img src="{{url('/')}}/template/images/logo.png" alt=" " /></a>
 					</div>
+					<div class="web-name-label">
+						<a href="{{url('/')}}">
+							Sekolah Minggu GKII<br>
+							TEMBAGAPURA
+						</a>
+					</div>
 					<div class="clearfix"> </div>
 				</div>
 				<div class="header-bottom-right">					

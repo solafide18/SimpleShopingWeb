@@ -3,10 +3,17 @@
 
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="X-UA-Compatible" content="
+        worker-src blob:; 
+        child-src blob: gap:;
+        img-src 'self' blob: data:;
+        default-src * 'self' 'unsafe-inline' 'unsafe-eval' data: gap: content:
+    ">
     <title>@yield('title', 'Simple Shoping | Administarator')</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'none'; connect-src 'self';font-src 'self'; img-src 'self' data: https:; style-src 'self' ; script-src 'self'"> -->
     <!-- Font Awesome -->
     @include('shared.admin.style')
     @include('shared.admin.script')

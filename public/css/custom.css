@@ -4,3 +4,59 @@
 .add-item-prd{
     cursor: pointer;
 }
+
+.web-name-label{
+    float: left;
+    padding-top: 1.7em;
+    text-align: center;
+    font-family: "Lucida Console", "Courier New", monospace;
+}
+.web-name-label a{
+    text-decoration: none;
+    font-size: 1em;
+    color: #000;
+}
+.web-name-label a span {
+    background: url(../images/img-sprite.png)-117px -30px;
+    width: 26px;
+    height: 26px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.search-item{
+    background: #fff;
+    border: 1px solid #ddd;
+    position: relative;
+    width: 47%;
+    margin: 1.2em 0 1.2em 0;
+}
+
+.search-item input[type="text"] {
+    border: none;
+    outline: none;
+    background: none;
+    font-size: 1em;
+    color: #777;
+    width: 68%;
+    padding: 7px;
+    -webkit-apperance: none;
+    margin: 0;
+    -webkit-transition: all 0.5s ease-out;
+    -moz-transition: all 0.5s ease-out;
+    -ms-transition: all 0.5s ease-out;
+    -o-transition: all 0.5s ease-out;
+}
+
+.search-item input[type="submit"] {
+    border-left: 1px solid #ddd;
+    outline: none;
+    cursor: pointer;
+    width: 30.6%;
+    height: 35px;
+    padding: 7px;
+    background: none;
+    border-bottom: none;
+    border-top: none;
+    border-right: none;
+}

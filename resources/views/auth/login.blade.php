@@ -67,6 +67,7 @@
                         </div>
                     </div>
                 </form>
+                <p class="login-box-msg"><a href="{{url('/')}}">Go To Catalog</a></p>
             </div>
         </div>
     </div>
