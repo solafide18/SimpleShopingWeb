@@ -26,7 +26,7 @@
                         <a href="single.html"></a>
                         <div class="left-grid-view grid-view-left">
                             <a class="add-item-prd">
-                                <img src="{{url('/')}}/{{ $product->path_image }}" class="img-responsive watch-right productImg" alt="">
+                                <img src="{{url('/')}}/{{ $product->path_image }}" class="img-responsive watch-right productImg" alt="" style="width:210px;height:285px;">
                                 <div class="mask">
                                     <div class="info">Quick View</div>
                                 </div>
