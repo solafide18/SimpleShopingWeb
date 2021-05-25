@@ -11,6 +11,7 @@ use App\Http\Requests;
 use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
 use Intervention\Image\Facades\Image;
+use Illuminate\Support\Str;
 
 class ServiceController extends Controller
 {
@@ -117,15 +118,25 @@ class ServiceController extends Controller
 
     public function PostCategory(Requests\CategoryRequest $request)
     {
-        $data = $this->handleRequest($request);
-        $category = Category::create($data);
+        try {
+            $data = $this->handleRequest($request);
+            $category = Category::create($data);
+            
+            return response()->json([
+                'code' => 200,
+                'data' => $category,
+                'count' => 0,
+                'message' => "Inserted"
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'code' => 500,
+                'data' => null,
+                'count' => 0,
+                'message' => $e->getMessage()
+            ]);
+        }
         
-        return response()->json([
-            'code' => 200,
-            'data' => $category,
-            'count' => 0,
-            'message' => "Inserted"
-        ]);
     }
 
     public function PutCategory(Requests\PutCategoryRequest $request)
@@ -187,27 +198,46 @@ class ServiceController extends Controller
 
     public function PostProduct(Requests\ProductRequest $request)
     {
-        $data = $this->handleRequest($request);
-        $product = Product::create($data);
-        
-        return response()->json([
-            'code' => 200,
-            'data' => $product,
-            'count' => 0,
-            'message' => "Inserted"
-        ]);
+        try {
+            $data = $this->handleRequest($request);
+            $product = Product::create($data);
+            
+            return response()->json([
+                'code' => 200,
+                'data' => $product,
+                'count' => 0,
+                'message' => "Inserted"
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'code' => 500,
+                'data' => null,
+                'count' => 0,
+                'message' => $e->getMessage()
+            ]);
+        }
     }
 
     public function PutProduct(Requests\PutProductRequest $request)
     {
-        $data = $this->handleRequest($request);
-        $product = Product::findOrFail($data['id'])->update($data);
-        return response()->json([
-            'code' => 200,
-            'data' => $product,
-            'count' => 0,
-            'message' => "Updated"
-        ]);
+        try {
+            $data = $this->handleRequest($request);
+            $product = Product::findOrFail($data['id'])->update($data);
+            return response()->json([
+                'code' => 200,
+                'data' => $product,
+                'count' => 0,
+                'message' => "Updated"
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'code' => 500,
+                'data' => null,
+                'count' => 0,
+                'message' => $e->getMessage()
+            ]);
+        }
+        
     }
 
     public function DeleteProduct($id)
@@ -238,6 +268,7 @@ class ServiceController extends Controller
 
     private function handleRequest($request)
     {
+        $uuid = Str::uuid()->toString();
         $data = $request->all();
         // dd($request);
         if ($request->file('path_image_upload'))
@@ -253,7 +284,8 @@ class ServiceController extends Controller
                 $width     = config('cms.image.thumbnail.width');
                 $height    = config('cms.image.thumbnail.height');
                 $extension = $image->getClientOriginalExtension();
-                $thumbnail = str_replace(".{$extension}", "_thumb.{$extension}", $fileName);
+                // $thumbnail = str_replace(".{$extension}", "_thumb.{$extension}", $fileName);
+                $thumbnail = $uuid."_thumb.{$extension}";
 
                 Image::make($destination . '/' . $fileName)
                     ->resize($width, $height)

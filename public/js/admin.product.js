@@ -8,7 +8,7 @@ $(document).ready(function () {
 
 $("input.file-product").on('change', function(){
     // alert('changed');
-    debugger;
+    // debugger;
     var imgPreview = $(this).siblings('img');
     
     $(imgPreview).attr("src",URL.createObjectURL($(this)[0].files[0]));
@@ -92,7 +92,7 @@ function SubmitConfirmation(msg){
 
 $('form').submit(function(e){
     e.preventDefault();
-    debugger;
+    // debugger;
     var modal = $(this).parents('.modal');
     var urlAction = $(this).attr('action');
     var methodAction = $(this).attr('method');
@@ -112,7 +112,7 @@ $('form').submit(function(e){
         confirmButtonText: 'Ya!'
     }).then((result) => {
         if(result.value){
-            debugger;
+            // debugger;
             let table = $("#grid").DataTable();
             $.ajax({
                 url: urlAction,
@@ -134,13 +134,14 @@ $('form').submit(function(e){
                 },
                 error: function (err) {
                     console.log(err);
+                    $(modal).modal("hide");
+                    table.ajax.reload();
                     Swal.fire(
                         'Error!',
                         err.responseJSON['message'],
                         'error'
                     );
-                    $(modal).modal("hide");
-                    table.ajax.reload();
+                    
                 }
             })
         }

@@ -3,7 +3,7 @@
 @section('content')
     <div class=" w_content">
         <div class="women">
-                <div class="search-item">
+                <div class="search-item col-md-6">
                     <form action="{{ route('home') }}" method="post">
                         @csrf
                         <input type="text" value="" name="keyword" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '';}">
